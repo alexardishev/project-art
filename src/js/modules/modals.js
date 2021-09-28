@@ -1,5 +1,8 @@
 const modals = () => {
-    function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
+    let btnPressed; // false
+
+
+    function bindModal(triggerSelector, modalSelector, closeSelector, destroy = false) {
         const trigger = document.querySelectorAll(triggerSelector),
               modal = document.querySelector(modalSelector),
               close = document.querySelector(closeSelector),
@@ -12,8 +15,14 @@ const modals = () => {
                     e.preventDefault();
                 }
 
+                btnPressed = true; // Если нажал на что-то , то будет тру при переборе тригера
+
+                if (destroy) {
+                    item.remove(); // Удаляет сама себя
+                }
                 windows.forEach(item => {
                     item.style.display = 'none';
+                    item.classList.add('animated', 'fadeIn');
                 });
     
                 modal.style.display = "block";
@@ -34,7 +43,7 @@ const modals = () => {
         });
 
         modal.addEventListener('click', (e) => {
-            if (e.target === modal && closeClickOverlay) {
+            if (e.target === modal) {
                 windows.forEach(item => {
                     item.style.display = 'none';
                 });
@@ -84,9 +93,23 @@ const modals = () => {
         return scrollWidth;
     }
 
+    function openByScroll(selector) {
+        window.addEventListener('scroll', ()=> {
+            let scrollHeigth = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) // вернет максимально значение того, что мы туда передадим
+
+
+            if (!btnPressed && (window.pageYOffset + document.documentElement.clientHeight >= scrollHeigth)) {
+                document.querySelector(selector).click(); // Кликаем на него, то есть можно просто вызвать клик. Долистываем до конца страницы, если то что перед нами + отступ сверху равен всей страницы
+                // кликается на подарок и выполняется код сверху.
+            }
+        });
+    }
+
     bindModal('.button-design', '.popup-design', '.popup-design .popup-close');
     bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
-    showModalByTime('.popup-consultation', 6000);
+    bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
+    openByScroll('.fixed-gift');
+    // showModalByTime('.popup-consultation', 6000);
 };
 
 export default modals;
