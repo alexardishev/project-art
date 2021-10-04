@@ -2,7 +2,8 @@
 
 const forms = () => {
     const form = document.querySelectorAll('form'),
-          input = document.querySelectorAll('input');
+          input = document.querySelectorAll('input'),
+          upload = document.querySelectorAll('[name="upload"]');
 
 
 
@@ -37,7 +38,23 @@ const forms = () => {
         input.forEach(item => {
             item.value = ''; // Очищаем инпуты
         });
+        upload.forEach(item => {
+            item.previousElementSibling.textContent = 'Файл не выбран'; // Очищаем также и аплоад
+        });
     };
+
+    upload.forEach((item => {
+        item.addEventListener('input', ()=> {
+            console.log(item.files[0]); // обращаемся к фалу встроенный объект
+            let dots;
+            const arr = item.files[0].name.split('.');
+            arr[0].length > 6 ? dots ='...' : dots = '.'; // Массив в котором будет два элемента до точки и после
+            const name = arr[0].substring(0, 6) + dots + arr[1]; // Слепили первую часть массива + переменную точки + вторую часть массива4
+
+            item.previousElementSibling.textContent = name; //предыдущий элемент
+
+        }); // Сработает, когда пользователь что-то положит в поле
+    }));
 
     form.forEach(item => {
         item.addEventListener('submit', (e) => {
@@ -65,7 +82,7 @@ const forms = () => {
 
             const formData = new FormData(item); // соберет объект из данных формы
             let api;
-            item.closest('.popup-design') ? api = path.designer : api = path.question // Попробует найти определенный блок по селектору если вернет true, тогда будем брать путь до определенного файла
+            item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question // Попробует найти определенный блок по селектору если вернет true, тогда будем брать путь до определенного файла
             console.log(api);
 
             // const clearState = () => {
@@ -124,3 +141,24 @@ const forms = () => {
 };
 
 export default forms;
+
+
+
+// function flickSwitch(array) {
+//     let newArr = [];
+//     let switc = true;
+//     array.forEach((item) => {
+//         if(item === 'flick') {
+//             switc = !switc;
+            
+//         }
+//         newArr.push(switc);
+
+//     });
+//     console.log(newArr);
+// }
+
+
+// flickSwitch(["edabit", "flick", "eda", "bit"]);
+// flickSwitch(["flick", 11037, 3.14, 53]);
+// flickSwitch([false, false, "flick", "sheep", "flick"]);
