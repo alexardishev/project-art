@@ -1,3 +1,5 @@
+import { postData } from "../services/requests";
+
 // import checkNumInputs from './checkNumInputs';
 
 const forms = () => {
@@ -25,14 +27,7 @@ const forms = () => {
         question: 'assets/question.php'
     };
 
-    const postData = async (url, data) => {
-        let res = await fetch(url, { // если использую запрос, то он асинхрон и об этом надо писать 
-            method: "POST",
-            body: data
-        });
 
-        return await res.text();
-    };  
 
     const clearInputs = () => {
         input.forEach(item => {
