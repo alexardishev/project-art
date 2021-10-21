@@ -6,6 +6,7 @@ const forms = () => {
     const form = document.querySelectorAll('form'),
           input = document.querySelectorAll('input'),
           upload = document.querySelectorAll('[name="upload"]');
+    const price = document.querySelector('.calc-price');
 
 
 
@@ -76,6 +77,7 @@ const forms = () => {
             statusMessage.appendChild(textMessage);
 
             const formData = new FormData(item); // соберет объект из данных формы
+            formData.append("price", price);
             let api;
             item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question // Попробует найти определенный блок по селектору если вернет true, тогда будем брать путь до определенного файла
             console.log(api);
@@ -105,6 +107,7 @@ const forms = () => {
             // }
 
             console.log(formData)
+            console.log(formData.price)
             console.log(JSON.stringify(formData));
 
             postData(api, formData) // Здесь в пути будет переменная
