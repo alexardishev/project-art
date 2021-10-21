@@ -2,7 +2,7 @@ import { postData } from "../services/requests";
 
 // import checkNumInputs from './checkNumInputs';
 
-const forms = () => {
+const forms = (state) => {
     const form = document.querySelectorAll('form'),
           input = document.querySelectorAll('input'),
           upload = document.querySelectorAll('[name="upload"]');
@@ -77,7 +77,13 @@ const forms = () => {
             statusMessage.appendChild(textMessage);
 
             const formData = new FormData(item); // соберет объект из данных формы
-            formData.append("price", price);
+            if (item.getAttribute('atr')=== 'end') { // Добавили все данные из свитча, в котором мы собирали данные о заказе пользователя
+                for (let key in state) { // Перебираем объект в JS
+                    formData.append(key, state[key]); // Метод добавления в обхект новых ключей
+                }
+                console.log(...formData);
+
+        }
             let api;
             item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question // Попробует найти определенный блок по селектору если вернет true, тогда будем брать путь до определенного файла
             console.log(api);
@@ -106,9 +112,7 @@ const forms = () => {
             //     document.body.classList.remove('modal-open');
             // }
 
-            console.log(formData)
-            console.log(formData.price)
-            console.log(JSON.stringify(formData));
+
 
             postData(api, formData) // Здесь в пути будет переменная
             .then(res => {
