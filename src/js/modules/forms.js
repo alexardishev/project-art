@@ -1,9 +1,12 @@
+import { postData } from "../services/requests";
+
 // import checkNumInputs from './checkNumInputs';
 
-const forms = () => {
+const forms = (state) => {
     const form = document.querySelectorAll('form'),
           input = document.querySelectorAll('input'),
           upload = document.querySelectorAll('[name="upload"]');
+    const price = document.querySelector('.calc-price');
 
 
 
@@ -25,14 +28,7 @@ const forms = () => {
         question: 'assets/question.php'
     };
 
-    const postData = async (url, data) => {
-        let res = await fetch(url, { // если использую запрос, то он асинхрон и об этом надо писать 
-            method: "POST",
-            body: data
-        });
 
-        return await res.text();
-    };  
 
     const clearInputs = () => {
         input.forEach(item => {
@@ -81,6 +77,13 @@ const forms = () => {
             statusMessage.appendChild(textMessage);
 
             const formData = new FormData(item); // соберет объект из данных формы
+            if (item.getAttribute('atr')=== 'end') { // Добавили все данные из свитча, в котором мы собирали данные о заказе пользователя
+                for (let key in state) { // Перебираем объект в JS
+                    formData.append(key, state[key]); // Метод добавления в обхект новых ключей
+                }
+                console.log(...formData);
+
+        }
             let api;
             item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question // Попробует найти определенный блок по селектору если вернет true, тогда будем брать путь до определенного файла
             console.log(api);
@@ -109,8 +112,7 @@ const forms = () => {
             //     document.body.classList.remove('modal-open');
             // }
 
-            console.log(formData)
-            console.log(JSON.stringify(formData));
+
 
             postData(api, formData) // Здесь в пути будет переменная
             .then(res => {
