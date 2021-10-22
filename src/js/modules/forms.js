@@ -144,21 +144,22 @@ export default forms;
 
 
 
-// function flickSwitch(array) {
-//     let newArr = [];
-//     let switc = true;
-//     array.forEach((item) => {
-//         if(item === 'flick') {
-//             switc = !switc;
+function flickSwitch(array) {
+    // let newArr = [];
+    let switc = true;
+  const newArr = array.map((item, i) => {
+        if(item === 'flick') {
+            switc = !switc;
             
-//         }
-//         newArr.push(switc);
-
-//     });
-//     console.log(newArr);
-// }
+        }
+       return item = switc;
 
 
-// flickSwitch(["edabit", "flick", "eda", "bit"]);
-// flickSwitch(["flick", 11037, 3.14, 53]);
-// flickSwitch([false, false, "flick", "sheep", "flick"]);
+    });
+    console.log(newArr);
+}
+
+
+flickSwitch(["edabit", "flick", "eda", "bit"]);
+flickSwitch(["flick", 11037, 3.14, 53]);
+flickSwitch([false, false, "flick", "sheep", "flick"]);
