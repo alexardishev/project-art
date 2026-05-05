@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Волшебная книжка рисунков — MVP</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app__header">
+        <h1>Волшебная книжка рисунков</h1>
+        <p id="storyText">Открой книжку и верни истории к жизни ✨</p>
+      </header>
+
+      <main>
+        <section id="mainMenu" class="screen screen--active">
+          <div class="panel">
+            <button data-nav="characterSelect" class="btn btn--primary">Играть</button>
+            <button data-nav="library" class="btn">Библиотека</button>
+            <button id="parentsBtn" class="btn">Для родителей</button>
+          </div>
+        </section>
+
+        <section id="characterSelect" class="screen">
+          <h2>Выбери героя</h2>
+          <div id="characters" class="characters"></div>
+          <button data-nav="mainMenu" class="btn">← Назад</button>
+        </section>
+
+        <section id="drawing" class="screen">
+          <h2>Дорисуй героя</h2>
+          <div class="drawing-layout">
+            <div class="drawing-board">
+              <canvas id="templateCanvas" width="420" height="420"></canvas>
+              <canvas id="drawCanvas" width="420" height="420"></canvas>
+            </div>
+            <div class="tools">
+              <div id="colorPalette" class="palette"></div>
+              <button id="brushTool" class="btn btn--small">Кисть</button>
+              <button id="eraserTool" class="btn btn--small">Ластик</button>
+              <button id="undoBtn" class="btn btn--small">Undo (1)</button>
+              <button id="clearBtn" class="btn btn--small">Очистить</button>
+            </div>
+          </div>
+          <div class="actions">
+            <button data-nav="characterSelect" class="btn">← Назад</button>
+            <button id="reviveBtn" class="btn btn--primary">Оживить</button>
+          </div>
+        </section>
+
+        <section id="revive" class="screen">
+          <h2>Оживление</h2>
+          <div class="revive-stage">
+            <img id="revivePreview" alt="Оживлённый герой" />
+            <div id="glow" class="glow"></div>
+          </div>
+          <div class="actions">
+            <button data-nav="drawing" class="btn">← Назад</button>
+            <button id="toMinigameBtn" class="btn btn--primary">Играть дальше</button>
+          </div>
+        </section>
+
+        <section id="miniGame" class="screen">
+          <h2>Потерянные звёздочки</h2>
+          <p id="starProgress">Собрано: 0/6</p>
+          <div id="miniGameField" class="mini-game-field"></div>
+          <div id="miniGameResult" class="result hidden">
+            <h3>История восстановлена!</h3>
+            <button id="saveStoryBtn" class="btn btn--primary">В библиотеку</button>
+          </div>
+          <button data-nav="revive" class="btn">← Назад</button>
+        </section>
+
+        <section id="library" class="screen">
+          <h2>Полка историй</h2>
+          <div id="libraryGrid" class="library-grid"></div>
+          <div id="replayPanel" class="replay hidden">
+            <h3>Реплей оживления</h3>
+            <img id="replayImage" alt="Реплей" />
+          </div>
+          <button data-nav="mainMenu" class="btn">← В меню</button>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="parentsDialog">
+      <h3>Для родителей</h3>
+      <p>Это MVP без рекламы, покупок и проигрыша. Все данные хранятся локально в браузере.</p>
+      <button id="closeParentsDialog" class="btn">Понятно</button>
+    </dialog>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
